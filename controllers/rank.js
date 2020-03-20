@@ -1,0 +1,29 @@
+const Clarifai=require('clarifai');
+
+const app = new Clarifai.App({
+ apiKey: 'e7538ce50e7c4d68a02b1d2d4dd87300'
+});
+
+const handleAPICallPost=(req,res)=>{
+	app.models.predict(Clarifai.GENERAL_MODEL,req.body.imageInput)
+	.then(data=>{
+		res.json(data);
+	})
+	.catch(err=>res.status(400).json('Clarifai API failure. Check Network Connection!!!'));
+}
+
+const handleRankPut=(req,res,database)=>{
+	const{id}=req.body;
+	database('users').where('id','=',id)
+  	.increment('rank',1).returning('rank')
+  	.then(rank=>{
+  		res.json(rank[0]);
+  	}).catch(err=>{
+  		res.status(404).json('Rank Not Found!!!');
+  	})
+}
+
+module.exports={
+	handleRankPut:handleRankPut,
+	handleAPICallPost:handleAPICallPost
+}
