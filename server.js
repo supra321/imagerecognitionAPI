@@ -31,6 +31,6 @@ app.get('/profile/:id',(req,res)=>{profile.handleProfileGet(req,res,database)})
 app.put('/rank',(req,res)=>{rank.handleRankPut(req,res,database)})
 app.post('/imageurl',(req,res)=>{rank.handleAPICallPost(req,res)})
 
-app.listen(3001,()=>{
+app.listen(process.env.PORT || 3001,()=>{
 	console.log('It is working');
 })
