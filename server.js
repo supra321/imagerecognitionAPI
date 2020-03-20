@@ -24,7 +24,7 @@ const app=express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/',(req,res)=>{rooot.handleRootGet(res,database)})
+app.get('/',(req,res)=>{res.send("Mutton")/*rooot.handleRootGet(res,database)*/})
 app.post('/login',(req,res)=>{login.handleLogInPost(req,res,bcrypt,database)})
 app.post('/signup',(req,res)=>{signup.handleSignUpPost(req,res,bcrypt,database)})
 app.get('/profile/:id',(req,res)=>{profile.handleProfileGet(req,res,database)})
