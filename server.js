@@ -12,10 +12,8 @@ const rank=require('./controllers/rank');
 const database=knex({
 	client:'pg',
 	connection:{
-	    host :'127.0.0.1',
-	    user :'postgres',
-	    password :'supra123',
-	    database :'imagerecognitiondb'
+	    connectionString:process.env.DATABASE_URL,
+  		ssl:true
 	}
 });
 
