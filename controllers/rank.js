@@ -5,7 +5,7 @@ const app = new Clarifai.App({
 });
 
 const handleAPICallPost=(req,res)=>{
-	app.models.predict(Clarifai.TRAVEL_MODEL,req.body.imageInput)
+	app.models.predict(Clarifai.GENERAL_MODEL,req.body.imageInput)
 	.then(data=>{
 		res.json(data);
 	})
