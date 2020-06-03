@@ -1,10 +1,12 @@
-const handleSignUpPost=(req,res,bcrypt,database)=>{
+const createSessions= require('./login').createSessions;
+
+const validateCredentials=(req,bcrypt,database)=>{
 	const{name,email,password}=req.body;
 	if(!name || !email || !password){
-		return res.status(400).json('Incorrect Credentials');
+		return Promise.reject('Incorrect Credentials');
 	}
 	const hash=bcrypt.hashSync(password);
-	database.transaction(trx=>{
+	return database.transaction(trx=>{
 		trx.insert({
 			email:email,
 			password:hash
@@ -16,16 +18,24 @@ const handleSignUpPost=(req,res,bcrypt,database)=>{
 				email:Email[0],
 				joined: new Date()
 			})
-			.then(user=>{
-				res.json(user[0]);
-			})
+			.then(user=>user[0])
+			.catch(err=>Promise.reject('Sign Up Failed!!!'));
 		})
 		.then(trx.commit)
 		.catch(trx.rollback);
 	})
-	.catch(err=>res.status(404).json('Sign Up Failed!!!'));
+	.catch(err=>Promise.reject('Sign Up Failed!!!'));
+}
+
+const handleSignUpPostAuth=(req,res,bcrypt,database,client)=>{
+	return validateCredentials(req,bcrypt,database)
+			.then(user=>{
+				return user.id && user.name && user.email? createSessions(user,client):
+				Promise.reject('Invalid User!!!')
+			}).then(session=>res.json(session))
+			.catch(err=>res.status(404).json('Invalid Credentials!!!'));
 }
 
 module.exports={
-	handleSignUpPost:handleSignUpPost
+	handleSignUpPostAuth:handleSignUpPostAuth
 }

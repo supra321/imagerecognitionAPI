@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+ imagerecognitionapi: 
+  container_name: backend
+  build: ./
+  command: npm start
+  working_dir: /usr/src/imagerecognitionAPI
+  environment: 
+    DATABASE_URL: postgres://supra123:secret@postgres:5432/imagerecognitiondb
+    REDIS_URL: redis://redis:6379
+  ports: 
+    - "3001:3001"
+  volumes:
+    - ./:/usr/src/imagerecognitionAPI
+
+ postgres:
+  environment: 
+    POSTGRES_HOST: postgres
+    POSTGRES_USER: supra123
+    POSTGRES_PASSWORD: secret
+    POSTGRES_DB: imagerecognitiondb
+  build: ./postgres
+  ports: 
+  - "5432:5432"
+
+ redis:
+  image: redis
+  ports:
+  - "6379:6379"

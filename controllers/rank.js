@@ -1,11 +1,11 @@
 const Clarifai=require('clarifai');
 
 const app = new Clarifai.App({
- apiKey: 'e7538ce50e7c4d68a02b1d2d4dd87300'
+ apiKey: process.env.API_CLARIFAI
 });
 
 const handleAPICallPost=(req,res)=>{
-	app.models.predict(Clarifai.GENERAL_MODEL,req.body.imageInput)
+	app.models.predict(Clarifai.TRAVEL_MODEL,req.body.imageInput)
 	.then(data=>{
 		res.json(data);
 	})
