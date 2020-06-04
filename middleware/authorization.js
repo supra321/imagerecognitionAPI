@@ -1,4 +1,5 @@
-client=require('../server');
+const redis = require("redis");
+const client = redis.createClient(process.env.REDIS_URL);
 
 const requireAuth=(req,res,next)=>{
 	const {authorization}=req.headers;

@@ -38,8 +38,6 @@ app.put('/rank',auth.requireAuth,(req,res)=>{rank.handleRankPut(req,res,database
 app.post('/imageurl',auth.requireAuth,(req,res)=>{rank.handleAPICallPost(req,res)});
 app.delete('/deletetoken',auth.requireAuth,(req,res)=>{deletetoken.handleDeleteToken(req,res,client)});
 
-module.exports = client;
-
 const PORT=process.env.PORT||3001;
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`);
